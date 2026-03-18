@@ -5,7 +5,7 @@
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <h2 class="text-2xl font-bold mb-6">Edit Profile</h2>
+                        <h2 class="text-2xl font-bold mb-6"><Link :href="route('profile.edit')">Edit Profile</Link></h2>
 
                         <form @submit.prevent="updateProfile">
                             <!-- Name -->
@@ -44,9 +44,11 @@
                                 ></textarea>
                                 <p v-if="form.errors.bio" class="text-red-500 text-xs mt-1">{{ form.errors.bio }}</p>
                             </div>
-                              <!-- Divider -->
+                              
+                            
+                            <!-- Divider -->
                             <div class="border-t border-gray-200 my-6"></div>
-                            <h3 class="text-lg font-semibold mb-4">Change Password )</h3>
+                            <h3 class="text-lg font-semibold mb-4">Change Password </h3>
 
                             <!-- Current Password -->
                             <div class="mb-4">

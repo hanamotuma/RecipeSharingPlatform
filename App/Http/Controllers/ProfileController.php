@@ -54,7 +54,6 @@ class ProfileController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'bio' => 'nullable|string|max:500',
-             'bio' => 'nullable|string|max:500',
             'current_password' => 'nullable|required_with:new_password|current_password',
             'new_password' => 'nullable|min:8|confirmed',
         ]);

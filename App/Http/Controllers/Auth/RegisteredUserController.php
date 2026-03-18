@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-    public function create(): View
+    public function create(): Response
     {
-        return view('auth.register');
+        return Inertia::render('Auth/Register');
     }
 
     public function store(Request $request): RedirectResponse
@@ -37,7 +39,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // Redirect to profile page instead of recipes index
         return redirect()->route('profile.show', $user->id)->with('success', 'Welcome to RecipeShare! Your profile has been created.');
     }
 }

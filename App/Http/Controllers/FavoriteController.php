@@ -38,13 +38,11 @@ class FavoriteController extends Controller
    
      public function index()
 {
-  
-    $favorites = Auth::user()->favorites()
-        ->with(['recipe.user', 'recipe.category']) 
-        ->paginate(12);
+   /** @var \App\Models\User $user */
+$user = Auth::user();
 
-    return Inertia::render('Profile/Favorites', [
-        'favorites' => $favorites
-    ]);
+$favorites = $user->favorites()
+    ->with(['recipe.user', 'recipe.category'])
+    ->paginate(12);
 }
 }

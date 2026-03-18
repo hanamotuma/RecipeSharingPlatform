@@ -42,8 +42,8 @@ public function likes()
         return $this->hasMany(Like::class);
     }
 
-    public function favorites()
-    {
-        return $this->hasMany(Favorite::class);
-    }
+   public function favorites()
+{
+    return $this->hasMany(\App\Models\Favorite::class);
+}
 }

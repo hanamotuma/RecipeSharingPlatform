@@ -16,10 +16,23 @@
                                 Home
                             </NavLink>
                             <NavLink v-if="isAuthenticated" :href="route('recipes.create')" :active="$page.url === '/recipes/create'">
-                                Create Recipe
+                               <Link :href="route('recipes.create')">Create Recipe</Link>
                             </NavLink>
                         </div>
                     </div>
+
+                      <!-- Notification Container -->
+        <div class="fixed top-20 right-4 z-50 space-y-2">
+            <Notification
+                v-for="notification in notifications"
+                :key="notification.id"
+                :type="notification.type"
+                :title="notification.title"
+                :message="notification.message"
+                :duration="notification.duration"
+                @close="remove(notification.id)"
+            />
+        </div>
 
                     <!-- Center - Search Bar -->
                     <div class="flex-1 max-w-lg mx-4">
@@ -116,6 +129,9 @@
                             </Link>
                         </div>
                     </div>
+                         <div class="min-h-screen bg-gray-100">
+      
+                    </div>
                 </div>
             </div>
         </nav>
@@ -143,12 +159,26 @@ import { Link, router, usePage } from '@inertiajs/vue3'
 import Dropdown from '@/Components/Dropdown.vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import NavLink from '@/Components/NavLink.vue'
-
+import { useNotification } from '@/Stores/notification'
+const { notifications, show, remove } = useNotification()
 const page = usePage()
 const searchQuery = ref('')
 
 const isAuthenticated = computed(() => {
     return page.props.auth?.user !== null && page.props.auth?.user !== undefined
+})
+
+show({
+    type:'success',
+    title:'Success',
+    message:'Recipe created successfully!',
+    //duration: 3000
+})
+show({
+    type:'error',
+    title:'Error',
+    message:'Failed to create recipe.',
+    //duration: 3000
 })
 
 const user = computed(() => {

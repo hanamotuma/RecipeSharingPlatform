@@ -22,13 +22,24 @@ class Recipe extends Model
         'image',
         'difficulty'
     ];
+     protected $casts = [
+        'ingredients' => 'array', 
+        'cooking_time' => 'integer'
+    ];
 
     protected static function boot()
     {
         parent::boot();
         
         static::creating(function ($recipe) {
-            $recipe->slug = Str::slug($recipe->title);
+            $baseSlug = Str::slug($recipe->title);
+            $slug = $baseSlug;
+            $count = 1;
+            while (static::where('slug', $slug)->exists()) {
+                $slug = $baseSlug . '-' . $count;
+                $count++;
+            }
+            $recipe->slug = $slug;
         });
     }
 

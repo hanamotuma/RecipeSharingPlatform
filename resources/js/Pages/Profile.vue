@@ -5,6 +5,7 @@ defineProps({
 </script>
 
 <template>
+    <AppLayout>
 <div class="p-6">
     <h1 class="text-2xl font-bold mb-4">My Profile</h1>
 
@@ -13,4 +14,5 @@ defineProps({
         <p><strong>Email:</strong> {{ user.email }}</p>
     </div>
 </div>
+    </AppLayout>
 </template>

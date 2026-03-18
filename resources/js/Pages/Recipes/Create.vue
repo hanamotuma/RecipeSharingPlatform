@@ -112,12 +112,15 @@
                                 <label class="block text-gray-700 text-sm font-bold mb-2">Recipe Image</label>
                                 <input 
                                     type="file" 
-                                    @input="form.image = $event.target.files[0]"
+                                    @change="handleImageUpload"
                                     accept="image/*"
                                     class="w-full"
                                     :class="{ 'border-red-500': form.errors.image }"
-                                >
+                                > <!-- helps to drag from the gallery and drop it here -->
                                 <p v-if="form.errors.image" class="text-red-500 text-xs mt-1">{{ form.errors.image }}</p>
+                                <div v-if="imagePreview" class="mt-2">
+                                    <img :src="imagePreview" alt="Image preview" class="max-w-xs max-h-48 rounded">
+                                </div>
                             </div>
 
                             <!-- Submit Button -->
@@ -142,10 +145,13 @@
 import {ref} from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
+import { useNotification } from '@/Stores/notification'
+const { notifications, show, remove } = useNotification()
 
 const props = defineProps({
     categories: Array
 })
+console.log('Categories received:', props.categories)
 
 const form = useForm({
     title: '',
@@ -164,9 +170,16 @@ const handleImageUpload = (event) => {
     const file = event.target.files[0]
     form.image = file
     if (file) {
+        
+        if (imagePreview.value) {
+            URL.revokeObjectURL(imagePreview.value)
+        }
         imagePreview.value = URL.createObjectURL(file)
+    } else {
+        imagePreview.value = null
     }
 }
+
 
 const submit = () => {
     form.post(route('recipes.store'), {

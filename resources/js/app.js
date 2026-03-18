@@ -7,10 +7,10 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js'
 
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Recipes';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+   title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,

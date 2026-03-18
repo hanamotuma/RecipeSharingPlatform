@@ -13,6 +13,36 @@ use Illuminate\Support\Facades\Auth;
 class RecipeController extends Controller
 {
     use AuthorizesRequests; 
+    public function create()
+{
+    return Inertia::render('Recipes/Create', [
+        'categories' => Category::all()  
+    ]);
+}
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'ingredients' => 'required',
+            'instructions' => 'required',
+            'cooking_time' => 'required|integer|min:1',
+            'category_id' => 'required|exists:categories,id',
+            'difficulty' => 'required|in:easy,medium,hard',
+            'image' => 'nullable|image|max:2048'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('recipes', 'public');
+            $validated['image'] = $path;
+        }
+
+        $validated['user_id'] = Auth::id();
+
+        Recipe::create($validated); 
+        return redirect()->route('recipes.index')->with('success', 'Recipe created successfully!');
+    }
 
    public function index(Request $request)
 {
@@ -51,35 +81,6 @@ class RecipeController extends Controller
         'filters' => $request->only(['search', 'category', 'sort'])
     ]);
 }
- public function create()
-    {
-        return Inertia::render('Recipes/Create',[
-            'categories' => Category::all()
-        ]);
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'ingredients' => 'required',
-            'instructions' => 'required',
-            'cooking_time' => 'required|integer|min:1',
-            'category_id' => 'required|exists:categories,id',
-            'difficulty' => 'required|in:easy,medium,hard',
-            'image' => 'nullable|image|max:2048'
-        ]);
-
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('recipes', 'public');
-        }
-
-        $validated['user_id'] = Auth::id();
-
-        Recipe::create($validated); 
-        return redirect()->route('recipes.index')->with('success', 'Recipe created successfully!');
-    }
 
     public function show(Recipe $recipe)
     {
