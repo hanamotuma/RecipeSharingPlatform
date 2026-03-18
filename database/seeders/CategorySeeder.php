@@ -1,5 +1,5 @@
 <?php
-
+//This section is to make it dynamic and to add more categories in the future without changing the code
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;

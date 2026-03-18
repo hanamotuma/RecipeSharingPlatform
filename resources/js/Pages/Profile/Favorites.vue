@@ -50,7 +50,8 @@
 import { Link, router } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import Pagination from '@/Components/Pagination.vue'
-
+import { useNotification } from '@/Stores/notification'
+const { show } = useNotification()
 const props = defineProps({
     favorites: Object
 })
@@ -66,4 +67,5 @@ const removeFavorite = (recipeId) => {
         })
     }
 }
+
 </script>

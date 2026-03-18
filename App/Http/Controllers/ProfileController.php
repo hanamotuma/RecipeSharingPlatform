@@ -54,22 +54,21 @@ class ProfileController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'bio' => 'nullable|string|max:500',
-            'current_password' => 'nullable|required_with:new_password|current_password',
-            'new_password' => 'nullable|min:8|confirmed',
+            'image' => 'nullable|image|max:2048', 
+            
         ]);
+        
 
-       // Update basic info
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-        $user->bio = $validated['bio'] ?? null;
-
-        // Update password if provided
-        if ($request->filled('new_password')) {
-            $user->password = Hash::make($validated['new_password']);
-        }
-
-        $user->save();
-
-        return redirect()->route('profile.show', $user->id)->with('success', 'Profile updated successfully!');
+     // Image Upload
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('profile-photos', 'public');
+        $user->profile_photo_path = $path; 
     }
+
+    // Update text fields
+    $user->fill($validated);
+    $user->save();
+
+    return back()->with('message', 'Profile updated successfully!');
+}
 }

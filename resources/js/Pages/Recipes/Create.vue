@@ -145,8 +145,6 @@
 import {ref} from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
-import { useNotification } from '@/Stores/notification'
-const { notifications, show, remove } = useNotification()
 
 const props = defineProps({
     categories: Array
