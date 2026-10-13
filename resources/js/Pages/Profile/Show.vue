@@ -9,7 +9,8 @@
                             <div class="flex items-center space-x-6">
                                 <!-- Avatar -->
                                 <div class="relative">
-                                    <div class="w-24 h-24 rounded-full bg-gradient-to-r from-orange-400 to-red-500 flex items-center justify-center text-white text-4xl font-bold">
+                                    <img v-if="profileUser.profile_photo_path" :src="'/storage/' + profileUser.profile_photo_path" class="w-24 h-24 rounded-full object-cover" :alt="profileUser.name">
+                                    <div v-else class="w-24 h-24 rounded-full bg-gradient-to-r from-orange-400 to-red-500 flex items-center justify-center text-white text-4xl font-bold">
                                         {{ profileUser.name.charAt(0).toUpperCase() }}
                                     </div>
                                 </div>

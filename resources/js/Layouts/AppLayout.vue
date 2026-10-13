@@ -15,8 +15,14 @@
                             <NavLink :href="route('home')" :active="$page.url === '/'">
                                 Home
                             </NavLink>
+                            <NavLink :href="route('recipes.index')" :active="$page.url.startsWith('/recipes')">
+                                Recipes
+                            </NavLink>
+                            <NavLink :href="route('categories.index')" :active="$page.url.startsWith('/categories')">
+                                Categories
+                            </NavLink>
                             <NavLink v-if="isAuthenticated" :href="route('recipes.create')" :active="$page.url === '/recipes/create'">
-                               <Link :href="route('recipes.create')">Create Recipe</Link>
+                                Create Recipe
                             </NavLink>
                         </div>
                     </div>
@@ -47,7 +53,8 @@
                                 <template #trigger>
                                     <button class="flex items-center space-x-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none">
                                         <!-- Profile Image -->
-                                        <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">
+                                        <img v-if="user.profile_photo_path" :src="'/storage/' + user.profile_photo_path" class="w-8 h-8 rounded-full object-cover" :alt="user.name">
+                                        <div v-else class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">
                                             {{ userInitials }}
                                         </div>
                                         <span class="hidden md:inline-block">{{ user.name }}</span>
@@ -134,6 +141,7 @@
                 <slot />
             </div>
         </main>
+        <Toast />
     </div>
 </template>
 

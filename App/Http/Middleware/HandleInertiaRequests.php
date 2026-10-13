@@ -31,6 +31,8 @@ class HandleInertiaRequests extends Middleware
                     'id' => $request->user()->id,
                     'name' => $request->user()->name,
                     'email' => $request->user()->email,
+                    'bio' => $request->user()->bio,
+                    'profile_photo_path' => $request->user()->profile_photo_path,
                     'created_at' => $request->user()->created_at,
                 ] : null,
             ],

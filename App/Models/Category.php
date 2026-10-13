@@ -30,6 +30,11 @@ class Category extends Model
         });
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     public function recipes()
     {
         return $this->hasMany(Recipe::class);

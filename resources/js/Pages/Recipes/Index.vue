@@ -10,11 +10,6 @@
                     </div>
                 </div>
 
-                <!-- Debug Info - Remove after testing -->
-                <div v-if="$page.props.recipes && $page.props.recipes.data" class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
-                    Found {{ $page.props.recipes.data.length }} recipes
-                </div>
-
                 <!-- Filters Section -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                     <div class="p-6">
@@ -24,7 +19,7 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
                                 <input 
                                     type="text" 
-                                    v-model="filters.search"
+                                    v-model="searchQuery"
                                     @keyup.enter="applyFilters"
                                     placeholder="Search recipes..."
                                     class="w-full rounded-lg border-gray-300 focus:border-orange-500 focus:ring focus:ring-orange-200"
@@ -34,7 +29,7 @@
                             <!-- Category Filter -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                                <select v-model="filters.category" @change="applyFilters" class="w-full rounded-lg border-gray-300 focus:border-orange-500 focus:ring focus:ring-orange-200">
+                                <select v-model="selectedCategory" @change="applyFilters" class="w-full rounded-lg border-gray-300 focus:border-orange-500 focus:ring focus:ring-orange-200">
                                     <option value="">All Categories</option>
                                     <option v-for="category in categories" :key="category.id" :value="category.id">
                                         {{ category.name }}
@@ -45,7 +40,7 @@
                             <!-- Sort -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
-                                <select v-model="filters.sort" @change="applyFilters" class="w-full rounded-lg border-gray-300 focus:border-orange-500 focus:ring focus:ring-orange-200">
+                                <select v-model="selectedSort" @change="applyFilters" class="w-full rounded-lg border-gray-300 focus:border-orange-500 focus:ring focus:ring-orange-200">
                                     <option value="latest">Latest</option>
                                     <option value="popular">Most Popular</option>
                                     <option value="oldest">Oldest</option>
@@ -141,10 +136,5 @@ watch(searchQuery, (newValue) => {
     searchTimeout = setTimeout(() => {
         applyFilters()
     }, 500)
-})
-
-
-watch([selectedCategory, selectedSort], () => {
-    applyFilters()
 })
 </script>

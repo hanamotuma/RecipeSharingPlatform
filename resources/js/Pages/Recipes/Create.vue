@@ -149,7 +149,6 @@ import AppLayout from '@/Layouts/AppLayout.vue'
 const props = defineProps({
     categories: Array
 })
-console.log('Categories received:', props.categories)
 
 const form = useForm({
     title: '',

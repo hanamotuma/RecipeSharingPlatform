@@ -43,6 +43,11 @@ $user = Auth::user();
 
 $favorites = $user->favorites()
     ->with(['recipe.user', 'recipe.category'])
+    ->latest()
     ->paginate(12);
+
+return Inertia::render('Favorites/Index', [
+    'favorites' => $favorites
+]);
 }
 }

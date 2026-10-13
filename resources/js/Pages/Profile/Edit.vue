@@ -44,6 +44,25 @@
                                 ></textarea>
                                 <p v-if="form.errors.bio" class="text-red-500 text-xs mt-1">{{ form.errors.bio }}</p>
                             </div>
+
+                            <!-- Profile Photo -->
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2">Profile Photo</label>
+                                <div class="flex items-center space-x-4">
+                                    <img v-if="photoPreview" :src="photoPreview" class="w-16 h-16 rounded-full object-cover" alt="Preview">
+                                    <div v-else-if="user.profile_photo_path" class="w-16 h-16 rounded-full bg-cover bg-center" :style="{ backgroundImage: `url('/storage/${user.profile_photo_path}')` }"></div>
+                                    <div v-else class="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">
+                                        {{ user.name.charAt(0).toUpperCase() }}
+                                    </div>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        @change="handlePhoto"
+                                        class="text-sm"
+                                    >
+                                </div>
+                                <p v-if="form.errors.image" class="text-red-500 text-xs mt-1">{{ form.errors.image }}</p>
+                            </div>
                               
                             
                             <!-- Divider -->
@@ -107,6 +126,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useForm, Link } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 
@@ -114,20 +134,31 @@ const props = defineProps({
     user: Object
 })
 
+const photoPreview = ref(null)
+
 const form = useForm({
     name: props.user.name,
     email: props.user.email,
     bio: props.user.bio || '',
+    image: null,
     current_password: '',
     new_password: '',
     new_password_confirmation: ''
 })
 
+const handlePhoto = (event) => {
+    const file = event.target.files[0]
+    form.image = file
+    photoPreview.value = file ? URL.createObjectURL(file) : null
+}
+
 const updateProfile = () => {
     form.put(route('profile.update'), {
         preserveScroll: true,
+        forceFormData: true,
         onSuccess: () => {
-            form.reset('current_password', 'new_password', 'new_password_confirmation')
+            form.reset('current_password', 'new_password', 'new_password_confirmation', 'image')
+            photoPreview.value = null
         }
     })
 }
